@@ -55,7 +55,7 @@ const JobAdsForm = ({ onSubmit, initialValues }) => {
         <InputNumber min={0} max={100} />
       </FormItem>
       <FormItem name="isMain" valuePropName="checked">
-        <Checkbox defaultChecked={true}>This task is the main task</Checkbox>
+        <Checkbox>This task is the main task</Checkbox>
       </FormItem>
       <FormItem>
         <Button type="primary" htmlType="submit">
