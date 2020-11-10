@@ -24,3 +24,6 @@ yarn-error.log*
 
 #docker-volume
 docker-volume
+
+# for intellij
+.idea/
