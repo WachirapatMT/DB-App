@@ -1,5 +1,7 @@
-import { List } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, List, Row, Typography } from 'antd';
 import React from 'react';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { EmployerJobItem } from '.';
 
 const jobList = [
@@ -27,10 +29,23 @@ const jobList = [
 ];
 
 const EmployerJobList = () => {
+  const { url } = useRouteMatch();
   return (
     <List
       itemLayout="vertical"
       dataSource={jobList}
+      header={
+        <Typography.Title level={3}>Your job advertisements</Typography.Title>
+      }
+      footer={
+        <Row justify="center">
+          <Link to={`${url}/job/create`}>
+            <Button shape="round" icon={<PlusOutlined />} size="large">
+              Add a new job
+            </Button>
+          </Link>
+        </Row>
+      }
       renderItem={(job) => <EmployerJobItem job={job} />}
     />
   );
