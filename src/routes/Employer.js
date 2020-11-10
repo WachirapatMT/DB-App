@@ -11,11 +11,11 @@ const Employer = () => {
         <Route exact path={`${path}/`}>
           <div>Employer Main</div>
         </Route>
+        <Route exact path={`${path}/job/create`}>
+          <EmployerJobCreate />
+        </Route>
         <Route path={`${path}/job/:jobId`}>
           <EmployerJob />
-        </Route>
-        <Route path={`${path}/job/create`}>
-          <EmployerJobCreate />
         </Route>
       </Switch>
     </div>
