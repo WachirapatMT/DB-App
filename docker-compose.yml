@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'nisiter'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+    container_name: mysql-db
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker-volume/mysql-volume:/var/lib/mysql
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: 'nisiter'
+      MONGO_INITDB_ROOT_USERNAME: 'root'
+      MONGO_INITDB_ROOT_PASSWORD: 'root'
+    container_name: mongo-db
+    ports:
+      - 27017:27017
+    # volumes:
+    #   - ./docker-volume/mongo-volume:/data/db
