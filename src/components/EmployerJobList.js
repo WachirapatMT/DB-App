@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, List, Row, Typography } from 'antd';
 import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { EmployerJobItem } from '.';
 
 const jobList = [
@@ -30,6 +30,8 @@ const jobList = [
 
 const EmployerJobList = () => {
   const { url } = useRouteMatch();
+  const history = useHistory();
+
   return (
     <List
       itemLayout="vertical"
@@ -39,11 +41,14 @@ const EmployerJobList = () => {
       }
       footer={
         <Row justify="center">
-          <Link to={`${url}/job/create`}>
-            <Button shape="round" icon={<PlusOutlined />} size="large">
-              Add a new job
-            </Button>
-          </Link>
+          <Button
+            shape="round"
+            icon={<PlusOutlined />}
+            size="large"
+            onClick={() => history.push(`${url}/job/create`)}
+          >
+            Add a new job
+          </Button>
         </Row>
       }
       renderItem={(job) => <EmployerJobItem job={job} />}
