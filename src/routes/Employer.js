@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { EmployerJob, EmployerJobCreate } from '.';
+import { EmployerMain } from '../pages';
 
 const Employer = () => {
   const { path } = useRouteMatch();
@@ -9,7 +10,7 @@ const Employer = () => {
       Employer
       <Switch>
         <Route exact path={`${path}/`}>
-          <div>Employer Main</div>
+          <EmployerMain />
         </Route>
         <Route exact path={`${path}/job/create`}>
           <EmployerJobCreate />
