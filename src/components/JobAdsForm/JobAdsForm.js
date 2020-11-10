@@ -1,8 +1,8 @@
-import React from 'react'
-import { Checkbox, Form, Input, InputNumber, Button } from 'antd'
+import React from 'react';
+import { Checkbox, Form, Input, InputNumber, Button } from 'antd';
 
 const JobAdsForm = ({ onSubmit, initialValues }) => {
-  const FormItem = Form.Item
+  const FormItem = Form.Item;
   return (
     <Form layout="vertical" initialValues={initialValues} onFinish={onSubmit}>
       <FormItem
@@ -63,7 +63,7 @@ const JobAdsForm = ({ onSubmit, initialValues }) => {
         </Button>
       </FormItem>
     </Form>
-  )
-}
+  );
+};
 
-export default JobAdsForm
+export default JobAdsForm;
