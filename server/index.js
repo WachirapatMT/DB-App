@@ -1,19 +1,23 @@
-const express = require('express')
-const cors = require('cors')
+const Express = require('express')
+const CORS = require('cors')
 
-const app = express()
-const PORT = process.env.PORT || 3001
+const Controllers = require('./controllers');
 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(cors())
+// initialize application
+const Application = Express()
+const Config = require('./config.js');
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// for json body request
+Application.use(Express.json())
+Application.use(Express.urlencoded({extended: true}))
 
-require('./controllers/temp.controllers')(app)
+// Cross Origin Handler
+Application.use(CORS())
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}!`)
+// Endpoint Handler
+Application.get('/', Controllers.HelloWorld.GetHelloMessage);
+
+// Start Listening
+Application.listen(Config.PORT, () => {
+  console.log(`Application listening on port ${Config.PORT}`)
 });
