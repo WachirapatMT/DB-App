@@ -39,7 +39,7 @@ const Landing = () => {
         <label>E-mail</label>
         <Input type="email" value={email} onChange={onEmailChange} />
         <label>password</label>
-        <Input value={password} onChange={onPasswordChange} />
+        <Input type="password" value={password} onChange={onPasswordChange} />
       </div>
       <Button
         type="primary"

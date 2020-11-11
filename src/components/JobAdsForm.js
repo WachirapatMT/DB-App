@@ -62,9 +62,6 @@ const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
       >
         <Input />
       </FormItem>
-      <FormItem name="isMain" valuePropName="checked">
-        <Checkbox>This task is the main task</Checkbox>
-      </FormItem>
       <FormItem>
         <Space size={8}>
           <Button type="primary" htmlType="submit" loading={loading}>
