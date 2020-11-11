@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { EmployerJob, EmployerJobCreate } from '.';
-import { EmployerMain } from '../pages';
+import { EmployerMain, EmployerJob, EmployerJobCreate } from '../pages';
 
 const Employer = () => {
   const { path } = useRouteMatch();
