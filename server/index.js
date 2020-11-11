@@ -18,8 +18,13 @@ Application.use(Express.urlencoded({extended: true}))
 // Cross Origin Handler
 Application.use(CORS())
 
-// Endpoint Handler
+// Endpoint Handler for application
 Application.get('/', Controllers.HelloWorld.GetHelloMessage);
+
+// Endpoint Handler for task
+Application.get('/task', Controllers.Task.Get);
+Application.post('/task', Controllers.Task.Create);
+Application.delete('/task', Controllers.Task.Delete);
 
 // Start Listening
 Application.listen(Config.PORT, () => {
