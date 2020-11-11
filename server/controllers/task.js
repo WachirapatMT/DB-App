@@ -1,7 +1,21 @@
 const MySQL = require('../datasources/mysql.js');
 
-exports.Get = async (req, res) => {
-    const rows = await MySQL.Query(`select * from Task natural join TaskFieldsOfWork`);
+const getTask = async (filter) => {
+    const query = `select * from Task natural join TaskFieldsOfWork`;
+    let where = '';
+    if (filter['employerEmail'] !== undefined) {
+        where += ` employer_email = ${filter['employerEmail']}`
+    }
+
+    let rows;
+    if (where === '') {
+        rows = await MySQL.Query(query);
+    } else {
+        rows = await MySQL.Query(query.concat(' where', where));
+    }
+
+    console.log(rows)
+
     let fieldsOfWork = {}
     let task = {}
     rows.forEach(r => {
@@ -24,8 +38,11 @@ exports.Get = async (req, res) => {
             employerEmail: r['employer_email'],
         };
     });
+    return Object.values(task).map(t => ({...t, fieldsOfWork: fieldsOfWork[t['taskId']]}));
+}
 
-    res.json(Object.values(task).map(t => ({...t, fieldsOfWork: fieldsOfWork[t['taskId']]})));
+exports.Get = async (req, res) => {
+    res.json(await getTask({}));
 }
 
 exports.Create = async (req, res) => {
@@ -36,12 +53,7 @@ exports.Create = async (req, res) => {
         maxCompensation,
         minQuota,
         maxQuota,
-        currentAccepted,
         paymentMethod,
-        isApproved,
-        paidAt,
-        gatewayData,
-        amount,
         employerEmail,
         fieldsOfWork,
     } = req.body;
@@ -54,12 +66,12 @@ exports.Create = async (req, res) => {
         ${maxCompensation},
         ${minQuota},
         ${maxQuota},
-        ${currentAccepted},
+        0,
         '${paymentMethod}',
-        ${isApproved},
-        '${paidAt}',
-        '${JSON.stringify(gatewayData)}',
-        '${amount}',
+        0,
+        NULL,
+        NULL,
+        200,
         '${employerEmail}'
     )`);
 
@@ -75,12 +87,12 @@ exports.Create = async (req, res) => {
         maxCompensation,
         minQuota,
         maxQuota,
-        currentAccepted,
+        currentAccepted: 0,
         paymentMethod,
-        isApproved,
-        paidAt,
-        gatewayData,
-        amount,
+        isApproved: 0,
+        paidAt: null,
+        gatewayData: null,
+        amount: 200,
         employerEmail,
         fieldsOfWork,
     });
