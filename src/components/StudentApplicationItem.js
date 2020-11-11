@@ -23,7 +23,9 @@ const IconIcon = ({ status }) => {
   }
 };
 
-const StudentApplicationItem = ({ job: { id, title, status } }) => {
+const StudentApplicationItem = ({
+  job: { id, title, status, minCompensation, maxCompensation },
+}) => {
   return (
     <List.Item key={id}>
       <List.Item.Meta
@@ -41,7 +43,9 @@ const StudentApplicationItem = ({ job: { id, title, status } }) => {
           </div>
         </Space>
       ) : (
-        <></>
+        <div>
+          {minCompensation} - {maxCompensation} Bath
+        </div>
       )}
     </List.Item>
   );

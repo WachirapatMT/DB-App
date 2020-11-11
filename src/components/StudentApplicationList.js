@@ -26,10 +26,14 @@ const availableList = [
   {
     id: 'job-4',
     title: 'play game with CEO son',
+    minCompensation: 50000,
+    maxCompensation: 100000,
   },
   {
     id: 'job-5',
     title: 'teaching math',
+    minCompensation: 50000,
+    maxCompensation: 100000,
   },
 ];
 
@@ -50,13 +54,6 @@ const StudentApplicationList = () => {
         header={<Typography.Title level={3}>Available Job</Typography.Title>}
         renderItem={(job) => <StudentApplicationItem job={job} />}
       />
-      <Button
-        onClick={() => {
-          window.location.assign('http://localhost:3000/');
-        }}
-      >
-        Log out
-      </Button>
     </>
   );
 };
