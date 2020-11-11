@@ -31,6 +31,11 @@ const EmployerJob = () => {
     // TODO integrate with backend
   };
 
+  const onDelete = () => {
+    // TODO integrate with backend
+    console.log('Delete!');
+    history.push(`/employer/${email}`);
+  };
 
   const JobDetails = () => (
     <Card>
@@ -63,9 +68,13 @@ const EmployerJob = () => {
                 <Button type="primary" onClick={() => setIsEdit(true)}>
                   Edit
                 </Button>,
+                <Button type="danger" onClick={onDelete}>
+                  Delete
+                </Button>,
               ]
         }
       />
+
       {isEdit ? (
         <Card>
           <JobAdsForm
