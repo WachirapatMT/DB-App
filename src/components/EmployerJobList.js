@@ -37,8 +37,6 @@ const EmployerJobList = () => {
     loadJobList(setJobList, setLoading, decodeURIComponent(email));
   }, []);
 
-  console.log(jobList);
-
   if (loading) {
     return (
       <Row justify="center">
