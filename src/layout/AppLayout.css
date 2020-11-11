@@ -3,14 +3,14 @@
 }
 
 .layout .content {
+  display: flex;
   padding: 50px 50px;
-  height: 100%;
 }
 
 .layout .content .site-layout-content {
+  flex-grow: 1;
   background-color: #fff;
   padding: 24px;
-  height: 100%;
 }
 
 .layout .footer {
