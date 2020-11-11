@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import AppLayout from './layout/AppLayout';
-import { Employer, Landing, Student } from './routes';
+import { Employer, Student } from './routes';
+import { Landing } from './pages';
 
 const App = () => {
   return (
