@@ -15,7 +15,16 @@ const EmployerJob = () => {
     // TODO integrate with backend
     setTimeout(() => {
       // NOTE demo
-      setJobDetails({ title: 1, fieldOfWork: 2, minQuota: 3 });
+      setJobDetails({
+        title: `Job's Title`,
+        description: 'bla bla',
+        fieldsOfWork: 'Technology',
+        minCompensation: 10000,
+        maxCompensation: 20000,
+        minQuota: 3,
+        maxQuota: 10,
+        isMain: true,
+      });
       setPageLoading(false);
     }, 1000);
   }, []);
@@ -80,6 +89,7 @@ const EmployerJob = () => {
           <JobAdsForm
             onSubmit={onEdit}
             loading={loading}
+            initialValues={jobDetails}
             customButtons={[
               <Button onClick={() => setIsEdit(false)}>Cancel</Button>,
             ]}
