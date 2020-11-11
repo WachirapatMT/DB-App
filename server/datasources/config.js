@@ -1,11 +1,6 @@
 module.exports = {
     MongoDB: {
         CONNECTION_STRING: process.env.MONGODB_CONNECTION_STRING,
-        /*HOST: process.env.MONGODB_HOST || 'localhost',
-        PORT: process.env.MONGODB_PORT || 27017,
-        USER: process.env.MONGODB_USER || 'root',
-        PASS: process.env.MONGODB_PASS || 'password',
-        DATABASE: process.env.MONGODB_DATABASE || 'nisiter',*/
     },
     MySQL: {
         HOST: process.env.MYSQL_HOST || 'localhost',
