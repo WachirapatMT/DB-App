@@ -55,6 +55,13 @@ const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
       >
         <InputNumber min={0} max={100} />
       </FormItem>
+      <FormItem
+        label="Payment Method"
+        name="paymentMethod"
+        rules={[{ required: true, message: 'Title is required' }]}
+      >
+        <Input />
+      </FormItem>
       <FormItem name="isMain" valuePropName="checked">
         <Checkbox>This task is the main task</Checkbox>
       </FormItem>
