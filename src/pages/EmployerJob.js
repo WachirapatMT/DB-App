@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { PageHeader, Card, Button } from 'antd';
+import { PageHeader, Card, Button, Row, Col, Typography, Spin } from 'antd';
 import { JobAdsForm } from '../components/JobAdsForm';
 
 const EmployerJob = () => {
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
+  const [jobDetails, setJobDetails] = useState();
   const history = useHistory();
   const { email } = useParams();
+
+  useEffect(() => {
+    // TODO integrate with backend
+    setTimeout(() => {
+      // NOTE demo
+      setJobDetails({ title: 1, fieldOfWork: 2, minQuota: 3 });
+      setPageLoading(false);
+    }, 1000);
+  }, []);
 
   const onEdit = (values) => {
     setLoading(true);
@@ -20,9 +31,25 @@ const EmployerJob = () => {
     // TODO integrate with backend
   };
 
-  const JobDetails = () => <Card>job detail</Card>;
 
-  return (
+  const JobDetails = () => (
+    <Card>
+      {Object.keys(jobDetails).map((key) => (
+        <Row>
+          <Col span={6}>
+            <Typography.Title level={5}>{key}</Typography.Title>
+          </Col>
+          <Col span={12}>{jobDetails[key]}</Col>
+        </Row>
+      ))}
+    </Card>
+  );
+
+  return pageLoading ? (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <Spin />
+    </div>
+  ) : (
     <>
       <PageHeader
         title="Job Advertisement details"
