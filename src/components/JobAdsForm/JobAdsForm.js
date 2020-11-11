@@ -1,7 +1,7 @@
 import React from 'react';
 import { Checkbox, Form, Input, InputNumber, Button } from 'antd';
 
-const JobAdsForm = ({ onSubmit, initialValues, loading }) => {
+const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
   const FormItem = Form.Item;
   const { TextArea } = Input;
   return (
@@ -62,6 +62,7 @@ const JobAdsForm = ({ onSubmit, initialValues, loading }) => {
         <Button type="primary" htmlType="submit" loading={loading}>
           Submit
         </Button>
+        {customButtons}
       </FormItem>
     </Form>
   );
