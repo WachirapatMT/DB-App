@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Form, Input, InputNumber, Button } from 'antd';
+import { Checkbox, Form, Input, InputNumber, Button, Space } from 'antd';
 
 const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
   const FormItem = Form.Item;
@@ -59,10 +59,12 @@ const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
         <Checkbox>This task is the main task</Checkbox>
       </FormItem>
       <FormItem>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          Submit
-        </Button>
-        {customButtons}
+        <Space size={8}>
+          <Button type="primary" htmlType="submit" loading={loading}>
+            Submit
+          </Button>
+          {customButtons}
+        </Space>
       </FormItem>
     </Form>
   );
