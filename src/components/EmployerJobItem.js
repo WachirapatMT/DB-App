@@ -15,7 +15,7 @@ const EmployerJobItem = ({
     id,
     title,
     description,
-    fieldOfWork,
+    fieldsOfWork,
     minCompensation,
     maxCompensation,
     minQuota,
@@ -33,7 +33,7 @@ const EmployerJobItem = ({
             <Typography.Link type="link">{title}</Typography.Link>
           </Link>
         }
-        description={fieldOfWork.map((field) => (
+        description={fieldsOfWork.map((field) => (
           <Tag>{field}</Tag>
         ))}
       />
