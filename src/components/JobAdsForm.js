@@ -1,5 +1,6 @@
 import React from 'react';
-import { Checkbox, Form, Input, InputNumber, Button, Space } from 'antd';
+import { Form, Input, InputNumber, Button, Space } from 'antd';
+import FIELD_LABELS from '../utils/FieldLabels';
 
 const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
   const FormItem = Form.Item;
@@ -7,57 +8,73 @@ const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
   return (
     <Form layout="vertical" initialValues={initialValues} onFinish={onSubmit}>
       <FormItem
-        label="Title"
+        label={FIELD_LABELS.title}
         name="title"
-        rules={[{ required: true, message: 'Title is required' }]}
+        rules={[
+          { required: true, message: `${FIELD_LABELS.title} is required` },
+        ]}
       >
         <Input />
       </FormItem>
-      <FormItem label="Description" name="description">
+
+      <FormItem label={FIELD_LABELS.description} name="description">
         <TextArea showCount maxLength={100} />
       </FormItem>
+
       <FormItem
-        label="Field of work"
+        label={FIELD_LABELS.fieldsOfWork}
         name="fieldsOfWork"
-        rules={[{ required: true, message: 'Field of work is required' }]}
+        rules={[{ required: true, message: `${FIELD_LABELS.fieldsOfWork} is required` }]}
       >
         <Input />
       </FormItem>
+
       <FormItem
-        label="Minimum compensation"
+        label={FIELD_LABELS.minCompensation}
         name="minCompensation"
         rules={[
-          { required: true, message: 'Minimum compensation is required' },
+          {
+            required: true,
+            message: `${FIELD_LABELS.minCompensation} is required`,
+          },
         ]}
       >
         <InputNumber min={0} max={1000000} />
       </FormItem>
+
       <FormItem
-        label="Maximum compensation"
+        label={FIELD_LABELS.maxCompensation}
         name="maxCompensation"
         rules={[
-          { required: true, message: 'Maximum compensation is required' },
+          {
+            required: true,
+            message: `${FIELD_LABELS.maxCompensation} is required`,
+          },
         ]}
       >
         <InputNumber min={0} max={1000000} />
       </FormItem>
+
       <FormItem
-        label="Min Quota"
+        label={FIELD_LABELS.minQuota}
         name="minQuota"
-        rules={[{ required: true, message: 'Min Quota is required' }]}
+        rules={[
+          { required: true, message: `${FIELD_LABELS.minQuota} is required` },
+        ]}
       >
         <InputNumber min={0} max={100} />
       </FormItem>
+
       <FormItem
-        label="Max Quota"
+        label={FIELD_LABELS.maxQuota}
         name="maxQuota"
-        rules={[{ required: true, message: 'Max Quota is required' }]}
+        rules={[
+          { required: true, message: `${FIELD_LABELS.maxQuota} is required` },
+        ]}
       >
         <InputNumber min={0} max={100} />
       </FormItem>
-      <FormItem name="isMain" valuePropName="checked">
-        <Checkbox>This task is the main task</Checkbox>
-      </FormItem>
+
       <FormItem>
         <Space size={8}>
           <Button type="primary" htmlType="submit" loading={loading}>
