@@ -1,7 +1,8 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import { StudentApplication, StudentApplyJob } from '../pages';
-
+import { Button } from 'antd';
+import StudentApplicationList from '../components/StudentApplicationList';
 const Student = () => {
   const { path } = useRouteMatch();
 
@@ -11,6 +12,7 @@ const Student = () => {
       <Switch>
         <Route exact path={`${path}/`}>
           <div>Student Main</div>
+          <StudentApplicationList />
         </Route>
         <Route path={`${path}/application/:applicationId`}>
           <StudentApplication />
