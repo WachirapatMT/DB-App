@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { PageHeader, Card, Button, Row, Col, Typography, Spin } from 'antd';
-import { JobAdsForm } from '../components/JobAdsForm';
+import { JobAdsForm } from '../components';
 
 const EmployerJob = () => {
   const [loading, setLoading] = useState(false);
