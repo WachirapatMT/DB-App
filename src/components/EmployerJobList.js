@@ -1,25 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, List, Row, Spin, Typography } from 'antd';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import { EmployerJobItem } from '.';
 import { getJobList } from '../api/employer';
 
-const loadJobList = async (setJobList, setLoading) => {
-  setJobList(await getJobList());
+const loadJobList = async (setJobList, setLoading, email) => {
+  setJobList(await getJobList(email));
   setLoading(false);
 };
 
+const jobMapper = (job) => {
+  return {
+    id: job.taskId,
+    amount: job.amount,
+    description: job.description,
+    email: job.employerEmail,
+    fieldsOfWork: job.fieldsOfWork,
+    maxCompensation: job.maxCompensation,
+    minCompensation: job.minCompensation,
+    minQuota: job.minQuota,
+    maxQuota: job.maxQuota,
+    title: job.title
+  }
+}
+
 const EmployerJobList = () => {
   const { url } = useRouteMatch();
+  const { email } = useParams();
   const history = useHistory();
 
   const [loading, setLoading] = useState(true);
   const [jobList, setJobList] = useState([]);
 
   useEffect(() => {
-    loadJobList(setJobList, setLoading);
+    loadJobList(setJobList, setLoading, decodeURIComponent(email));
   }, []);
+
+  console.log(jobList);
 
   if (loading) {
     return (
@@ -47,7 +65,7 @@ const EmployerJobList = () => {
             </Button>
           </Row>
         }
-        renderItem={(job) => <EmployerJobItem job={job} />}
+        renderItem={(job) => <EmployerJobItem job={jobMapper(job)} />}
       />
     );
   }
