@@ -22,7 +22,9 @@ const EmployerJobCreate = () => {
     <>
       <PageHeader
         title="Create Job Advertisement"
-        onBack={() => history.goBack()}
+        onBack={() => {
+          history.push(`/employer/${email}`);
+        }}
       />
       <Card>
         <JobAdsForm onSubmit={onSubmit} loading={loading} />
