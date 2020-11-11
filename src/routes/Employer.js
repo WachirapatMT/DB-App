@@ -6,7 +6,6 @@ const Employer = () => {
   const { path } = useRouteMatch();
   return (
     <div>
-      Employer
       <Switch>
         <Route exact path={`${path}/`}>
           <EmployerMain />
