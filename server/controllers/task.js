@@ -58,44 +58,57 @@ exports.Create = async (req, res) => {
         fieldsOfWork,
     } = req.body;
 
-    const rows = await MySQL.Query(`insert into Task value (
-        ${null},
-        '${title}',
-        '${description}',
-        ${minCompensation},
-        ${maxCompensation},
-        ${minQuota},
-        ${maxQuota},
-        0,
-        '${paymentMethod}',
-        0,
-        NULL,
-        NULL,
-        200,
-        '${employerEmail}'
-    )`);
+    try {
+        await MySQL.Query('SET autocommit = 0;')
 
-    fieldsOfWork.forEach(f => {
-        MySQL.Query(`insert into TaskFieldsOfWork value (${rows.insertId}, '${f}')`).catch(e => console.log(e))
-    });
+        const rows = await MySQL.Query(`insert into Task value (
+            ${null},
+            '${title}',
+            '${description}',
+            ${minCompensation},
+            ${maxCompensation},
+            ${minQuota},
+            ${maxQuota},
+            0,
+            '${paymentMethod}',
+            0,
+            NULL,
+            NULL,
+            200,
+            '${employerEmail}'
+        )`);
 
-    res.json({
-        id: rows.insertId,
-        title,
-        description,
-        minCompensation,
-        maxCompensation,
-        minQuota,
-        maxQuota,
-        currentAccepted: 0,
-        paymentMethod,
-        isApproved: 0,
-        paidAt: null,
-        gatewayData: null,
-        amount: 200,
-        employerEmail,
-        fieldsOfWork,
-    });
+        fieldsOfWork.forEach(f => {
+            MySQL.Query(`insert into TaskFieldsOfWork value (${rows.insertId}, '${f}')`).catch(e => console.log(e))
+        });
+
+        // throw Error("Mysql transaction")
+
+        res.json({
+            id: rows.insertId,
+            title,
+            description,
+            minCompensation,
+            maxCompensation,
+            minQuota,
+            maxQuota,
+            currentAccepted: 0,
+            paymentMethod,
+            isApproved: 0,
+            paidAt: null,
+            gatewayData: null,
+            amount: 200,
+            employerEmail,
+            fieldsOfWork,
+        });
+    } catch (err) {
+        console.log(err)
+        await MySQL.Query('ROLLBACK;')
+        res.status(400).send()
+    } finally {
+        await MySQL.Query('SET autocommit = 1;')
+        
+    }
 }
 
 exports.Delete = async (req, res) => {
