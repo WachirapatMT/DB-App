@@ -36,8 +36,10 @@ const Landing = () => {
         </Radio.Group>
       </div>
       <div>
+        <label>Email</label>
         <Input type="email" value={email} onChange={onEmailChange} />
-        <Input value={password} onChange={onPasswordChange} />
+        <label>Password</label>
+        <Input type="password" value={password} onChange={onPasswordChange} />
       </div>
       <Button
         type="primary"
