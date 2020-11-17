@@ -28,6 +28,8 @@ Application.delete('/task', Controllers.Task.Delete);
 
 // Endpoint Handler for application
 Application.get('/application', Controllers.Application.Get);
+Application.post('/application', Controllers.Application.Create);
+Application.delete('/application', Controllers.Application.Delete);
 
 // Start Listening
 Application.listen(Config.PORT, () => {
