@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { PageHeader, Card, Button, Row, Col, Typography, Spin } from 'antd';
 import { JobAdsForm } from '../components';
+import { getJobById, updateJobById, deleteJobById } from '../api/employer';
 
 const EmployerJob = () => {
   const [loading, setLoading] = useState(false);
@@ -9,30 +10,34 @@ const EmployerJob = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [jobDetails, setJobDetails] = useState();
   const history = useHistory();
-  const { email } = useParams();
+  const { email, jobId } = useParams();
 
-  useEffect(() => {
+  useEffect(async () => {
     // TODO integrate with backend
+    const job = await getJobById(jobId);
+
     setTimeout(() => {
       // NOTE demo
       setJobDetails({
-        title: `Job's Title`,
-        description: 'bla bla',
-        fieldsOfWork: 'Technology',
-        minCompensation: 10000,
-        maxCompensation: 20000,
-        minQuota: 3,
-        maxQuota: 10,
-        isMain: true,
+        title: job[0].title,
+        description: job[0].description,
+        fieldsOfWork: `${job[0].fieldsOfWork}`,
+        minCompensation: job[0].minCompensation,
+        maxCompensation: job[0].maxCompensation,
+        minQuota: job[0].minQuota,
+        maxQuota: job[0].maxQuota,
+        paymentMethod: job[0].paymentMethod,
       });
       setPageLoading(false);
     }, 1000);
   }, []);
 
-  const onEdit = (values) => {
+  const onEdit = async (values) => {
     setLoading(true);
+    await updateJobById({ taskId: jobId, ...values });
     // NOTE demo
     setTimeout(() => {
+      history.go(0);
       console.log(values);
       setLoading(false);
       setIsEdit(false);
@@ -40,8 +45,9 @@ const EmployerJob = () => {
     // TODO integrate with backend
   };
 
-  const onDelete = () => {
+  const onDelete = async () => {
     // TODO integrate with backend
+    await deleteJobById(jobId);
     console.log('Delete!');
     history.push(`/employer/${email}`);
   };

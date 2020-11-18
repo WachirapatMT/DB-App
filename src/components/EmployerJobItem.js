@@ -20,7 +20,6 @@ const EmployerJobItem = ({
     maxCompensation,
     minQuota,
     maxQuota,
-    isMain,
   },
 }) => {
   const { email } = useParams();

@@ -58,7 +58,7 @@ const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
       <FormItem
         label="Payment Method"
         name="paymentMethod"
-        rules={[{ required: true, message: 'Title is required' }]}
+        rules={[{ required: true, message: 'Payment Method is required' }]}
       >
         <Input />
       </FormItem>

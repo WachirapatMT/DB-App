@@ -21,10 +21,20 @@ export const getJobById = async (jobId) => {
     return err;
   }
 };
+
+export const updateJobById = async (jobData) => {
+  try {
+    const response = await axios.patch(`/task`, jobData);
+    console.log(response)
     return response.data;
+  } catch(err) {
     return err;
   }
 };
+
+export const deleteJobById = async (jobId) => {
+  try {
+    const response = await axios.delete(`/task`, {data: {taskId: jobId}});
     return response.data;
   } catch(err) {
     return err;
