@@ -114,6 +114,65 @@ exports.Create = async (req, res) => {
     }
 }
 
+exports.Update = async (req, res) => {
+    const {
+        taskId,
+        title,
+        description,
+        minCompensation,
+        maxCompensation,
+        minQuota,
+        maxQuota,
+        paymentMethod,
+        fieldsOfWork,
+    } = req.body;
+
+    try {
+        await MySQL.Query('SET autocommit = 0;')
+
+        const rows = await MySQL.Query(`update Task set 
+            title='${title}', 
+            description='${description}', 
+            min_compensation=${minCompensation}, 
+            max_compensation=${maxCompensation}, 
+            min_quota=${minQuota}, 
+            max_quota=${maxQuota}, 
+            payment_method='${paymentMethod}'
+            where task_id=${taskId}
+    `);
+
+        // TODO: update field of work
+
+        // fieldsOfWork.forEach(f => {
+        //     MySQL.Query(`insert into TaskFieldsOfWork value (${rows.insertId}, '${f}')`).catch(e => console.log(e))
+        // });
+
+        // throw Error("Mysql transaction")
+
+        await MySQL.Query('COMMIT;')
+
+        res.json({
+            id: taskId,
+            title,
+            description,
+            minCompensation,
+            maxCompensation,
+            minQuota,
+            maxQuota,
+            paymentMethod,
+            fieldsOfWork,
+        });
+        
+    } catch (err) {
+        console.log(err)
+        await MySQL.Query('ROLLBACK;')
+        res.status(400).send()
+    } finally {
+        await MySQL.Query('SET autocommit = 1;')
+        
+    }
+}
+
 exports.Delete = async (req, res) => {
     const {taskId} = req.body;
     // TODO : escape string

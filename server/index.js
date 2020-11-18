@@ -24,6 +24,7 @@ Application.get('/', Controllers.HelloWorld.GetHelloMessage);
 // Endpoint Handler for task
 Application.get('/task', Controllers.Task.Get);
 Application.post('/task', Controllers.Task.Create);
+Application.patch('/task', Controllers.Task.Update);
 Application.delete('/task', Controllers.Task.Delete);
 
 // Endpoint Handler for application
