@@ -4,7 +4,7 @@ const getApplication = async (filter) => {
     const query = `select * from Application`;
     let where = '';
     if (filter['applicationId'] !== undefined) {
-        where += ` application_id = ${filter['applicationId']}`
+        where += ` application_id = '${filter['applicationId']}'`
     }
 
     let rows;
