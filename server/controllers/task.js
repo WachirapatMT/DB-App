@@ -4,7 +4,9 @@ const getTask = async (filter) => {
     const query = `select * from Task natural join TaskFieldsOfWork`;
     let where = '';
     if (filter['employerEmail'] !== undefined) {
-        where += ` employer_email = ${filter['employerEmail']}`
+        where += ` employer_email = '${filter['employerEmail']}'`
+    }else if (filter['taskId'] !== undefined) {
+        where += ` task_id = ${filter['taskId']}`
     }
 
     let rows;
@@ -14,7 +16,7 @@ const getTask = async (filter) => {
         rows = await MySQL.Query(query.concat(' where', where));
     }
 
-    console.log(rows)
+    // console.log(rows)
 
     let fieldsOfWork = {}
     let task = {}
@@ -42,7 +44,8 @@ const getTask = async (filter) => {
 }
 
 exports.Get = async (req, res) => {
-    res.json(await getTask({}));
+    const filter = req.query
+    res.json(await getTask(filter));
 }
 
 exports.Create = async (req, res) => {
