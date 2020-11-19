@@ -26,11 +26,13 @@ const IconIcon = ({ status }) => {
 const StudentApplicationItem = ({
   job: { id, title, status, minCompensation, maxCompensation },
 }) => {
+  const { email } = useParams();
+
   return (
     <List.Item key={id}>
       <List.Item.Meta
         title={
-          <Link to={status ? `/application/${id}` : `/apply/${id}`}>
+          <Link to={status ? `/student/${email}/application/${id}` : `/student/${email}/apply/${id}`}>
             <Typography.Link type="link">{title}</Typography.Link>
           </Link>
         }
