@@ -14,7 +14,7 @@ const Student = () => {
           <div>Student Main</div>
           <StudentApplicationList />
         </Route>
-        <Route path={`${path}/application/:applicationId`}>
+        <Route exact path={`${path}/application/:applicationId`}>
           <StudentApplication />
         </Route>
         <Route path={`${path}/apply/:jobId`}>
