@@ -3,7 +3,10 @@ const MySQL = require('../datasources/mysql.js');
 const getApplication = async (filter) => {
     const query = `select * from Application`;
     let where = '';
-    if (filter['applicationId'] !== undefined) {
+    if(filter['studentEmail'] !== undefined){
+        where += ` student_email = '${filter['studentEmail']}'`
+    }
+    else if (filter['applicationId'] !== undefined) {
         where += ` application_id = '${filter['applicationId']}'`
     }
 
@@ -14,18 +17,15 @@ const getApplication = async (filter) => {
         rows = await MySQL.Query(query.concat(' where', where));
     }
 
-    console.log(rows)
+    // console.log(rows)
+    const application = rows.map(r => ({
+        applicationId: r['application_id'],
+        information: r['information'],
+        status: r['status'],
+        studentEmail: r['student_email'],
+        taskId: r['task_id'],
+    }))
 
-    let application = {}
-    rows.forEach(r => {
-        application[r['application_id']] = {
-            applicationId: r['application_id'],
-            information: r['information'],
-            status: r['status'],
-            studentEmail: r['student_email'],
-            taskId: r['task_id'],
-        };
-    });
     return application;
 }
 
