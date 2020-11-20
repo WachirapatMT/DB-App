@@ -1,54 +1,63 @@
-import React, { useState } from 'react';
-import { Input, Button, Radio } from 'antd';
+import React from 'react';
+import { Form, Typography, Input, Button, Radio, Row, Col } from 'antd';
+import { useHistory } from 'react-router-dom';
 
 const Landing = () => {
-  const onFinish = () => {
-    window.location.href = userType + '/' + email;
-    console.log('Success:', userType, email, password);
+  const roleOptions = [
+    { label: 'Student', value: 'student' },
+    { label: 'Employer', value: 'employer' },
+  ];
+
+  const history = useHistory();
+
+  const onSubmit = (values) => {
+    console.log(values);
+    const { role, email } = values;
+    history.push(`/${role}/${email}`);
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-  const [userType, setUserType] = useState('student');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const onUserTypeChange = (e) => {
-    setUserType(e.target.value);
-  };
-  const onEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const onPasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
+  const FormItem = Form.Item;
   return (
-    <div>
-      <div>
-        <h1>Nisiter</h1>
-      </div>
-      <div>
-        <Radio.Group onChange={onUserTypeChange}>
-          <Radio.Button value="student">Student</Radio.Button>
-          <Radio.Button value="employer">Employer</Radio.Button>
-        </Radio.Group>
-      </div>
-      <div>
-        <label>E-mail</label>
-        <Input type="email" value={email} onChange={onEmailChange} />
-        <label>password</label>
-        <Input type="password" value={password} onChange={onPasswordChange} />
-      </div>
-      <Button
-        type="primary"
-        onClick={onFinish}
-        onError={(e) => onFinishFailed(e)}
-      >
-        Submit
-      </Button>
-    </div>
+    <>
+      <Typography.Title level={1}>Nisiter</Typography.Title>
+      <Row>
+        <Col span={8} offset={8}>
+          <Form layout="vertical" onFinish={onSubmit}>
+            <FormItem
+              label="Login as"
+              name="role"
+              initialValue={roleOptions[0].value}
+            >
+              <Radio.Group
+                options={roleOptions}
+                optionType="button"
+                buttonStyle="solid"
+              />
+            </FormItem>
+            <FormItem
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: 'Email is required' }]}
+            >
+              <Input />
+            </FormItem>
+            <FormItem
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: 'Password is required' }]}
+            >
+              <Input type="password" />
+            </FormItem>
+
+            <FormItem>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </FormItem>
+          </Form>
+        </Col>
+      </Row>
+    </>
   );
 };
 
