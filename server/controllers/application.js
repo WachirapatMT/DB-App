@@ -30,7 +30,8 @@ const getApplication = async (filter) => {
 }
 
 exports.Get = async (req, res) => {
-    res.json(await getApplication({}));
+    const filter = req.query
+    res.json(await getApplication(filter));
 }
 
 exports.Create = async (req, res) => {
