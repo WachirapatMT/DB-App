@@ -3,7 +3,10 @@ const MySQL = require('../datasources/mysql.js');
 const getApplication = async (filter) => {
     const query = `select * from Application`;
     let where = '';
-    if (filter['applicationId'] !== undefined) {
+    if(filter['studentEmail'] !== undefined){
+        where += ` student_email = '${filter['studentEmail']}'`
+    }
+    else if (filter['applicationId'] !== undefined) {
         where += ` application_id = '${filter['applicationId']}'`
     }
 
