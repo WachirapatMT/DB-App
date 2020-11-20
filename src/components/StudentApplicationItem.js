@@ -1,54 +1,71 @@
-import React from 'react';
-import { List, Space, Typography, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { List, Space, Typography, Button, Spin, Row } from 'antd';
 import {
   CheckOutlined,
   CloseOutlined,
   ClockCircleOutlined,
+  TrophyOutlined,
 } from '@ant-design/icons';
 import { Link, useParams } from 'react-router-dom';
+import { getJobById } from '../api/employer';
 
 const IconIcon = ({ status }) => {
   switch (status) {
-    case 'approved':
+    case 'Accepted':
       return <CheckOutlined />;
 
-    case 'rejected':
+    case 'Rejected':
       return <CloseOutlined />;
 
-    case 'waiting':
+    case 'Pending':
       return <ClockCircleOutlined />;
+
+    case 'Finished':
+      return <TrophyOutlined />;
 
     default:
       return <CheckOutlined />;
   }
 };
 
-const StudentApplicationItem = ({
-  job: { id, title, status, minCompensation, maxCompensation },
-}) => {
-  const { email } = useParams();
+const loadJobById = async (setJobById, setLoading, id) => {
+  const job = await getJobById(id);
+  setJobById(job);
+  setLoading(false);
+};
 
-  return (
+const StudentApplicationItem = ({
+  app: { id, email, taskId, status, information },
+}) => {
+  const [loading, setLoading] = useState(true);
+  const [jobById, setJobById] = useState({});
+  const user = useParams().email;
+  useEffect(() => {
+    loadJobById(setJobById, setLoading, id);
+  }, [jobById]);
+
+  if (jobById.length === 1) var title = jobById[0].title;
+
+  return loading ? (
+    <Row justify="center">
+      <Spin />
+    </Row>
+  ) : (
     <List.Item key={id}>
       <List.Item.Meta
         title={
-          <Link to={status ? `/student/${email}/application/${id}` : `/student/${email}/apply/${id}`}>
+          <Link to={`/student/${user}/application/${id}`}>
             <Typography.Link type="link">{title}</Typography.Link>
           </Link>
         }
       />
-      {status ? (
-        <Space direction="vertical">
-          <div>
-            {status + '\t\t'}
-            <IconIcon status={status} />
-          </div>
-        </Space>
-      ) : (
+      <Space direction="vertical">
         <div>
-          {minCompensation} - {maxCompensation} Bath
+          {status + '\t\t'}
+          <IconIcon status={status} />
         </div>
-      )}
+      </Space>
+      )
     </List.Item>
   );
 };
