@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { PageHeader, Button, Card, Spin, Row, Col, Typography } from 'antd';
 import JobApplicationForm from '../components/JobApplicationForm';
+import { deleteAppById, getAppById, updateApp } from '../api/student';
 
 const StudentApplication = () => {
   const [loading, setLoading] = useState(false);
@@ -9,37 +10,44 @@ const StudentApplication = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [applicationDetails, setApplicationDetails] = useState();
   const history = useHistory();
-  const { email } = useParams();
+  const { email, applicationId } = useParams();
 
-  useEffect(async () => {
-    // TODO integrate with backend
-    // const job = await getJobById(jobId);
-
-    setTimeout(() => {
-      // NOTE demo
-      setApplicationDetails({ information: 'demo' });
-      setPageLoading(false);
-    }, 1000);
-  }, []);
-
-  const onEdit = () => {
-    // TODO integrate with backend
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      console.log('EDIT');
-    }, 1000);
+  const fetchApplication = async () => {
+    const [application] = await getAppById(applicationId);
+    const details = {
+      information: application.information,
+    };
+    setApplicationDetails(details);
+    setPageLoading(false);
   };
 
-  const onDelete = () => {
-    // TODO integrate with backend
-    console.log('DELETE');
+  useEffect(() => {
+    fetchApplication();
+  }, []);
+
+  const onEdit = async (values) => {
+    setLoading(true);
+
+    const appData = {
+      applicationId,
+      information: values.information,
+    };
+    await updateApp(appData);
+
+    await fetchApplication();
+    setLoading(false);
+    setIsEdit(false);
+  };
+
+  const onDelete = async () => {
+    await deleteAppById(applicationId);
+    history.push(`/student/${email}`);
   };
 
   const JobApplicationDetails = () => (
     <Card>
       {Object.keys(applicationDetails).map((key) => (
-        <Row>
+        <Row key={key}>
           <Col span={6}>
             <Typography.Title level={5}>{key}</Typography.Title>
           </Col>
@@ -50,9 +58,9 @@ const StudentApplication = () => {
   );
 
   return pageLoading ? (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <Row justify="center">
       <Spin />
-    </div>
+    </Row>
   ) : (
     <>
       <PageHeader

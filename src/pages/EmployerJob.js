@@ -45,7 +45,7 @@ const EmployerJob = () => {
 
     await updateJobById(jobData);
 
-    fetchJob();
+    await fetchJob();
     setLoading(false);
     setIsEdit(false);
   };
