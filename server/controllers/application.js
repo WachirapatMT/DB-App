@@ -61,6 +61,34 @@ exports.Create = async (req, res) => {
     });
 }
 
+exports.Update = async (req, res) => {
+    let {
+        information,
+        status,
+        applicationId,
+    } = req.body;
+
+    status = status === undefined ? 'Pending' : status;
+
+    // console.log(`update Application set
+    // information='${information}',
+    // status='${status}'
+    // where application_id=${applicationId}
+    // `)
+
+    await MySQL.Query(`update Application set
+        information='${information}',
+        status='${status}'
+        where application_id=${applicationId}
+    `);
+
+    res.json({
+        information,
+        status,
+        applicationId,
+    });
+}
+
 exports.Delete = async (req, res) => {
     const {applicationId} = req.body;
     const rows = await MySQL.Query(`delete from Application where application_id = ${applicationId}`);

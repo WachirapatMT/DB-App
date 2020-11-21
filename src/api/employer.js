@@ -36,7 +36,6 @@ export const getJobById = async (jobId) => {
 export const updateJobById = async (jobData) => {
   try {
     const response = await axios.patch(`/task`, jobData);
-    console.log(response);
     return response.data;
   } catch (err) {
     return err;
