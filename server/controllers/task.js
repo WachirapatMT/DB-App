@@ -43,6 +43,32 @@ const getTask = async (filter) => {
     return Object.values(task).map(t => ({...t, fieldsOfWork: fieldsOfWork[t['taskId']]}));
 }
 
+const getTaskStudent = async () => {
+    const rows = await MySQL.Query('CALL student_task_list();')
+    let fieldsOfWork = {}
+    let task = {}
+    rows[0].forEach(r => {
+        if (fieldsOfWork[r['task_id']] === undefined) fieldsOfWork[r['task_id']] = []
+        fieldsOfWork[r['task_id']].push(r['field_of_work']);
+        task[r['task_id']] = {
+            taskId: r['task_id'],
+            title: r['title'],
+            description: r['description'],
+            minCompensation: r['min_compensation'],
+            maxCompensation: r['max_compensation'],
+            minQuota: r['min_quota'],
+            maxQuota: r['max_quota'],
+            currentAccepted: r['current_accepted'],
+            taskSize: r['task_size']
+        };
+    });
+    return Object.values(task).map(t => ({...t, fieldsOfWork: fieldsOfWork[t['taskId']]}));
+}
+
+exports.GetForStudent = async (req, res) => {
+    res.json(await getTaskStudent());
+}
+
 exports.Get = async (req, res) => {
     const filter = req.query
     res.json(await getTask(filter));

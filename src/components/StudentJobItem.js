@@ -21,6 +21,7 @@ const StudentJobItem = ({
     minQuota,
     maxQuota,
     currentAccepted,
+    taskSize,
   },
 }) => {
   const { email } = useParams();
@@ -39,6 +40,7 @@ const StudentJobItem = ({
       />
       <Space direction="vertical">
         <div>{description}</div>
+        <div><strong>{`Job size: ${taskSize}`}</strong></div>
         <div>
           <Typography.Text strong>
             {`${minCompensation / 1000}k - ${maxCompensation / 1000}k`}
