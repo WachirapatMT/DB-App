@@ -30,7 +30,7 @@ const StudentJobItem = ({
     <List.Item key={id}>
       <List.Item.Meta
         title={
-          <Link to={`/student/${email}/apply/:jobId`}>
+          <Link to={`/student/${email}/apply/${id}`}>
             <Typography.Link type="link">{title}</Typography.Link>
           </Link>
         }
