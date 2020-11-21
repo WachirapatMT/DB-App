@@ -68,7 +68,7 @@ export const deleteAppById = async (appId) => {
 
 export const getAssessmentByJobId = async (jobId) => {
   try {
-    const response = await axios.get(`/assessment/${jobId}`);
+    const response = await axios.get(`/assessment/job/${jobId}`);
     return response.data; 
   } catch(err) {
     return err;

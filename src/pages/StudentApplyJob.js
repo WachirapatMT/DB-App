@@ -18,7 +18,7 @@ const StudentApplyJob = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
 
   useEffect(() => {
-    loadAssessment(setAssessment, setLoading, jobId)
+    loadAssessment(setAssessment, setLoading, jobId.toString())
   }, []);
 
   const onSubmit = async (values) => {
@@ -27,10 +27,11 @@ const StudentApplyJob = () => {
     const app = {
       information: values.information,
       studentEmail: email,
-      taskId: jobId
+      taskId: parseInt(jobId)
     };
-
+  
     await createApp(app)
+    
     setLoading(false);
     history.push(`/student/${email}`);
   };
