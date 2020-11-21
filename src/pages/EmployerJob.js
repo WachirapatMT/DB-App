@@ -13,11 +13,9 @@ const EmployerJob = () => {
   const { email, jobId } = useParams();
 
   useEffect(async () => {
-    // TODO integrate with backend
     const job = await getJobById(jobId);
 
     setTimeout(() => {
-      // NOTE demo
       setJobDetails({
         title: job[0].title,
         description: job[0].description,
@@ -26,6 +24,7 @@ const EmployerJob = () => {
         maxCompensation: job[0].maxCompensation,
         minQuota: job[0].minQuota,
         maxQuota: job[0].maxQuota,
+        currentAccepted: job[0].currentAccepted,
         paymentMethod: job[0].paymentMethod,
       });
       setPageLoading(false);
@@ -36,19 +35,16 @@ const EmployerJob = () => {
     setLoading(true);
     values.fieldsOfWork = values.fieldsOfWork.split(',')
     await updateJobById({ taskId: jobId, ...values });
-    // NOTE demo
+
     setTimeout(() => {
       history.go(0);
       setLoading(false);
       setIsEdit(false);
     }, 2000);
-    // TODO integrate with backend
   };
 
   const onDelete = async () => {
-    // TODO integrate with backend
     await deleteJobById(jobId);
-    console.log('Delete!');
     history.push(`/employer/${email}`);
   };
 
