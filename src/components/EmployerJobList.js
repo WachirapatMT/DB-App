@@ -11,6 +11,7 @@ const loadJobList = async (setJobList, setLoading, email) => {
 };
 
 const jobMapper = (job) => {
+
   return {
     id: job.taskId,
     amount: job.amount,

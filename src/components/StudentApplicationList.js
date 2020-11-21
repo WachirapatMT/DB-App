@@ -3,7 +3,7 @@ import { Button, List, Row, Spin, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import { getAppByEmail } from '../api/student';
-import { getAllJobList } from '../api/employer';
+import { getStudentJobList } from '../api/student';
 import StudentApplicationItem from './StudentApplicationItem';
 import StudentJobItem from './StudentJobItem';
 
@@ -23,7 +23,7 @@ const appMapper = (app) => {
 };
 
 const loadJobList = async (setJobList, setLoading2) => {
-  setJobList(await getAllJobList());
+  setJobList(await getStudentJobList());
   setLoading2(false);
 };
 
@@ -40,6 +40,7 @@ const jobMapper = (job) => {
     maxQuota: job.maxQuota,
     currentAccepted: job.currentAccepted,
     title: job.title,
+    taskSize: job.taskSize,
   };
 };
 

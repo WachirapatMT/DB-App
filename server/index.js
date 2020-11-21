@@ -22,6 +22,7 @@ Application.use(CORS())
 Application.get('/', Controllers.HelloWorld.GetHelloMessage);
 
 // Endpoint Handler for task
+Application.get('/task-student', Controllers.Task.GetForStudent);
 Application.get('/task', Controllers.Task.Get);
 Application.post('/task', Controllers.Task.Create);
 Application.patch('/task', Controllers.Task.Update);
