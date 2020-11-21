@@ -34,11 +34,11 @@ const EmployerJob = () => {
 
   const onEdit = async (values) => {
     setLoading(true);
+    values.fieldsOfWork = values.fieldsOfWork.split(',')
     await updateJobById({ taskId: jobId, ...values });
     // NOTE demo
     setTimeout(() => {
       history.go(0);
-      console.log(values);
       setLoading(false);
       setIsEdit(false);
     }, 2000);

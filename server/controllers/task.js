@@ -16,7 +16,7 @@ const getTask = async (filter) => {
         rows = await MySQL.Query(query.concat(' where', where));
     }
 
-    // console.log(rows)
+    // console.log(filter, rows)
 
     let fieldsOfWork = {}
     let task = {}
@@ -81,11 +81,13 @@ exports.Create = async (req, res) => {
             '${employerEmail}'
         )`);
 
-        fieldsOfWork.forEach(f => {
-            MySQL.Query(`insert into TaskFieldsOfWork value (${rows.insertId}, '${f}')`).catch(e => console.log(e))
-        });
+        for (let f of fieldsOfWork) {
+            await MySQL.Query(`insert into TaskFieldsOfWork value (${rows.insertId}, '${f}')`)
+        }  
 
         // throw Error("Mysql transaction")
+
+        await MySQL.Query('COMMIT;')
 
         res.json({
             id: rows.insertId,
@@ -141,16 +143,13 @@ exports.Update = async (req, res) => {
             where task_id=${taskId}
     `);
 
-        // TODO: update field of work
+        await MySQL.Query(`delete from TaskFieldsOfWork where task_id=${taskId}`)
 
-        // fieldsOfWork.forEach(f => {
-        //     MySQL.Query(`insert into TaskFieldsOfWork value (${rows.insertId}, '${f}')`).catch(e => console.log(e))
-        // });
-
-        // throw Error("Mysql transaction")
+        for (let f of fieldsOfWork) {
+            await MySQL.Query(`insert into TaskFieldsOfWork value (${taskId}, '${f}')`)
+        }        
 
         await MySQL.Query('COMMIT;')
-
         res.json({
             id: taskId,
             title,
@@ -164,8 +163,7 @@ exports.Update = async (req, res) => {
         });
         
     } catch (err) {
-        console.log(err)
-        await MySQL.Query('ROLLBACK;')
+         await MySQL.Query('ROLLBACK;')
         res.status(400).send()
     } finally {
         await MySQL.Query('SET autocommit = 1;')
