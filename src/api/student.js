@@ -65,3 +65,21 @@ export const deleteAppById = async (appId) => {
     return err;
   }
 };
+
+export const getAssessmentByJobId = async (jobId) => {
+  try {
+    const response = await axios.get(`/assessment/${jobId}`);
+    return response.data; 
+  } catch(err) {
+    return err;
+  }
+}
+
+export const createApp = async (app) => {
+  try {
+    const response = await axios.post(`/application`, app);
+    return response.data;
+  } catch (err) {
+    return err;
+  }
+}
