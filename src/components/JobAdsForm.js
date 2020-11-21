@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Form, Input, InputNumber, Button, Space } from 'antd';
+import { Form, Input, InputNumber, Button, Space } from 'antd';
 
 const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
   const FormItem = Form.Item;
