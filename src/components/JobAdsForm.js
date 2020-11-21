@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, InputNumber, Button, Space } from 'antd';
+import { Form, Input, InputNumber, Button, Space, Select } from 'antd';
 
 const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
   const FormItem = Form.Item;
@@ -60,7 +60,11 @@ const JobAdsForm = ({ onSubmit, initialValues, loading, customButtons }) => {
         name="paymentMethod"
         rules={[{ required: true, message: 'Payment Method is required' }]}
       >
-        <Input />
+        <Select>
+          <Select.Option value="CreditCard">Credit Card</Select.Option>
+          <Select.Option value="BankTransfer">Bank Transfer</Select.Option>
+          <Select.Option value="QR30">QR code</Select.Option>
+        </Select>
       </FormItem>
       <FormItem>
         <Space size={8}>
