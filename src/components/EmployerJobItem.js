@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Tag, Space, Divider, Typography, Button } from 'antd';
+import { List, Tag, Space, Divider, Typography } from 'antd';
 import { UserOutlined, UserAddOutlined } from '@ant-design/icons';
 import { Link, useParams } from 'react-router-dom';
 
