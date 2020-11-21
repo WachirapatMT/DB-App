@@ -1,6 +1,6 @@
 import React from 'react';
-import { List, Tag, Space, Divider, Typography, Button } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { List, Tag, Space, Divider, Typography } from 'antd';
+import { UserOutlined, UserAddOutlined } from '@ant-design/icons';
 import { Link, useParams } from 'react-router-dom';
 
 const IconText = ({ icon, text }) => (
@@ -20,6 +20,7 @@ const EmployerJobItem = ({
     maxCompensation,
     minQuota,
     maxQuota,
+    currentAccepted,
   },
 }) => {
   const { email } = useParams();
@@ -44,6 +45,8 @@ const EmployerJobItem = ({
           </Typography.Text>
           <Divider type="vertical" />
           <IconText icon={UserOutlined} text={`${minQuota} - ${maxQuota}`} />
+          <Divider type="vertical" />
+          <IconText icon={UserAddOutlined} text={currentAccepted} />
         </div>
       </Space>
     </List.Item>

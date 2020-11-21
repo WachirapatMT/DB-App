@@ -16,7 +16,7 @@ const getTask = async (filter) => {
         rows = await MySQL.Query(query.concat(' where', where));
     }
 
-    // console.log(rows)
+    // console.log(filter, rows)
 
     let fieldsOfWork = {}
     let task = {}
@@ -41,6 +41,32 @@ const getTask = async (filter) => {
         };
     });
     return Object.values(task).map(t => ({...t, fieldsOfWork: fieldsOfWork[t['taskId']]}));
+}
+
+const getTaskStudent = async () => {
+    const rows = await MySQL.Query('CALL student_task_list();')
+    let fieldsOfWork = {}
+    let task = {}
+    rows[0].forEach(r => {
+        if (fieldsOfWork[r['task_id']] === undefined) fieldsOfWork[r['task_id']] = []
+        fieldsOfWork[r['task_id']].push(r['field_of_work']);
+        task[r['task_id']] = {
+            taskId: r['task_id'],
+            title: r['title'],
+            description: r['description'],
+            minCompensation: r['min_compensation'],
+            maxCompensation: r['max_compensation'],
+            minQuota: r['min_quota'],
+            maxQuota: r['max_quota'],
+            currentAccepted: r['current_accepted'],
+            taskSize: r['task_size']
+        };
+    });
+    return Object.values(task).map(t => ({...t, fieldsOfWork: fieldsOfWork[t['taskId']]}));
+}
+
+exports.GetForStudent = async (req, res) => {
+    res.json(await getTaskStudent());
 }
 
 exports.Get = async (req, res) => {
@@ -81,11 +107,13 @@ exports.Create = async (req, res) => {
             '${employerEmail}'
         )`);
 
-        fieldsOfWork.forEach(f => {
-            MySQL.Query(`insert into TaskFieldsOfWork value (${rows.insertId}, '${f}')`).catch(e => console.log(e))
-        });
+        for (let f of fieldsOfWork) {
+            await MySQL.Query(`insert into TaskFieldsOfWork value (${rows.insertId}, '${f}')`)
+        }  
 
         // throw Error("Mysql transaction")
+
+        await MySQL.Query('COMMIT;')
 
         res.json({
             id: rows.insertId,
@@ -141,16 +169,13 @@ exports.Update = async (req, res) => {
             where task_id=${taskId}
     `);
 
-        // TODO: update field of work
+        await MySQL.Query(`delete from TaskFieldsOfWork where task_id=${taskId}`)
 
-        // fieldsOfWork.forEach(f => {
-        //     MySQL.Query(`insert into TaskFieldsOfWork value (${rows.insertId}, '${f}')`).catch(e => console.log(e))
-        // });
-
-        // throw Error("Mysql transaction")
+        for (let f of fieldsOfWork) {
+            await MySQL.Query(`insert into TaskFieldsOfWork value (${taskId}, '${f}')`)
+        }        
 
         await MySQL.Query('COMMIT;')
-
         res.json({
             id: taskId,
             title,
@@ -164,8 +189,7 @@ exports.Update = async (req, res) => {
         });
         
     } catch (err) {
-        console.log(err)
-        await MySQL.Query('ROLLBACK;')
+         await MySQL.Query('ROLLBACK;')
         res.status(400).send()
     } finally {
         await MySQL.Query('SET autocommit = 1;')

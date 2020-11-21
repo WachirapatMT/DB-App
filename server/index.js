@@ -22,6 +22,7 @@ Application.use(CORS())
 Application.get('/', Controllers.HelloWorld.GetHelloMessage);
 
 // Endpoint Handler for task
+Application.get('/task-student', Controllers.Task.GetForStudent);
 Application.get('/task', Controllers.Task.Get);
 Application.post('/task', Controllers.Task.Create);
 Application.patch('/task', Controllers.Task.Update);
@@ -30,6 +31,7 @@ Application.delete('/task', Controllers.Task.Delete);
 // Endpoint Handler for application
 Application.get('/application', Controllers.Application.Get);
 Application.post('/application', Controllers.Application.Create);
+Application.patch('/application', Controllers.Application.Update);
 Application.delete('/application', Controllers.Application.Delete);
 
 // Start Listening

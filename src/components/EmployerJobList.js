@@ -11,6 +11,7 @@ const loadJobList = async (setJobList, setLoading, email) => {
 };
 
 const jobMapper = (job) => {
+
   return {
     id: job.taskId,
     amount: job.amount,
@@ -21,6 +22,7 @@ const jobMapper = (job) => {
     minCompensation: job.minCompensation,
     minQuota: job.minQuota,
     maxQuota: job.maxQuota,
+    currentAccepted: job.currentAccepted,
     title: job.title
   }
 }

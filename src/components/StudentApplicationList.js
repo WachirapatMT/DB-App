@@ -1,30 +1,13 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, List, Row, Spin, Typography } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
-import { getAppByEmail } from '../api/student';
-import { getAllJobList } from '../api/employer';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { Row, Spin, List, Typography } from 'antd';
 import StudentApplicationItem from './StudentApplicationItem';
+import { getAppByEmail, getStudentJobList } from '../api/student';
+import { getJobById } from '../api/employer';
 import StudentJobItem from './StudentJobItem';
 
-const loadAppByEmail = async (setAppByEmail, setLoading, email) => {
-  setAppByEmail(await getAppByEmail(email));
-  setLoading(false);
-};
-
-const appMapper = (app) => {
-  return {
-    id: app.applicationId,
-    email: app.studentEmail,
-    taskId: app.taskId,
-    status: app.status,
-    information: app.information,
-  };
-};
-
-const loadJobList = async (setJobList, setLoading2) => {
-  setJobList(await getAllJobList());
-  setLoading2(false);
+const appMapper = (app, job) => {
+  return { id: app.applicationId, title: job.title, status: app.status };
 };
 
 const jobMapper = (job) => {
@@ -38,51 +21,77 @@ const jobMapper = (job) => {
     minCompensation: job.minCompensation,
     minQuota: job.minQuota,
     maxQuota: job.maxQuota,
+    currentAccepted: job.currentAccepted,
     title: job.title,
+    taskSize: job.taskSize,
   };
 };
 
 const StudentApplicationList = () => {
-  const { url } = useRouteMatch();
   const { email } = useParams();
-  const history = useHistory();
 
-  const [loading, setLoading] = useState(true);
+  const [applicationLoading, setApplicationLoading] = useState(true);
+  const [jobLoading, setJobLoading] = useState(true);
+
   const [appList, setAppList] = useState([]);
-  const [loading2, setLoading2] = useState(true);
   const [jobList, setJobList] = useState([]);
 
   useEffect(() => {
-    loadAppByEmail(setAppList, setLoading, email);
-    loadJobList(setJobList, setLoading2);
+    const fetchAppListWithJobDetails = async () => {
+      const apps = await getAppByEmail(email);
+      const appWithJobs = [];
+      for (const i in apps) {
+        const app = apps[i];
+        const [job] = await getJobById(app.taskId);
+        appWithJobs.push({ app: app, job: job });
+      }
+      setAppList(appWithJobs);
+      setApplicationLoading(false);
+    };
+    fetchAppListWithJobDetails();
   }, []);
 
-  if (loading || loading2) {
-    return (
-      <Row justify="center">
-        <Spin />
-      </Row>
-    );
-  } else {
-    return (
-      <>
+  useEffect(() => {
+    const fetchStudentJobList = async () => {
+      const jobs = await getStudentJobList();
+      setJobList(jobs);
+      setJobLoading(false);
+    };
+    fetchStudentJobList();
+  }, []);
+
+  return (
+    <>
+      {applicationLoading ? (
+        <Row justify="center">
+          <Spin />
+        </Row>
+      ) : (
         <List
           itemLayout="vertical"
-          dataSource={appList}
           header={
-            <Typography.Title level={4}>Your job application</Typography.Title>
+            <Typography.Title level={4}>Your Job Applications</Typography.Title>
           }
-          renderItem={(app) => <StudentApplicationItem app={appMapper(app)} />}
+          dataSource={appList}
+          renderItem={({ app, job }) => (
+            <StudentApplicationItem application={appMapper(app, job)} />
+          )}
         />
+      )}
+      {jobLoading ? (
+        <Row justify="center">
+          <Spin />
+        </Row>
+      ) : (
         <List
           itemLayout="vertical"
+          header={<Typography.Title level={4}>Available Jobs</Typography.Title>}
           dataSource={jobList}
-          header={<Typography.Title level={3}>Available Job</Typography.Title>}
           renderItem={(job) => <StudentJobItem job={jobMapper(job)} />}
         />
-      </>
-    );
-  }
+      )}
+    </>
+  );
 };
 
 export default StudentApplicationList;

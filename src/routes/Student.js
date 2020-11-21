@@ -8,10 +8,8 @@ const Student = () => {
 
   return (
     <div>
-      Student
       <Switch>
         <Route exact path={`${path}/`}>
-          <div>Student Main</div>
           <StudentApplicationList />
         </Route>
         <Route exact path={`${path}/application/:applicationId`}>

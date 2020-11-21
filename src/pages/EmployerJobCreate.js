@@ -1,23 +1,33 @@
 import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { createJob } from '../api/employer';
 import { Card, PageHeader } from 'antd';
 import { JobAdsForm } from '../components';
-import { jobCreate } from '../api/employer'
 
 const EmployerJobCreate = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { email } = useParams();
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     setLoading(true);
-    jobCreate(values, email)
-    setTimeout(() => {
-      console.log(values);
-      setLoading(false);
-      history.push(`/employer/${email}`);
-    }, 1500);
-    // TODO integrate with backend
+
+    const job = {
+      title: values.title,
+      description: values.description,
+      minCompensation: values.minCompensation,
+      maxCompensation: values.maxCompensation,
+      minQuota: values.minQuota,
+      maxQuota: values.maxQuota,
+      paymentMethod: values.paymentMethod,
+      employerEmail: email,
+      fieldsOfWork: values.fieldsOfWork.split(','),
+    };
+
+    await createJob(job);
+
+    setLoading(false);
+    history.push(`/employer/${email}`);
   };
 
   return (

@@ -33,10 +33,18 @@ export const getJobById = async (jobId) => {
   }
 };
 
+export const createJob = async (job) => {
+  try {
+    const response = await axios.post(`/task`, job);
+    return response.data;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const updateJobById = async (jobData) => {
   try {
     const response = await axios.patch(`/task`, jobData);
-    console.log(response);
     return response.data;
   } catch (err) {
     return err;
@@ -51,28 +59,3 @@ export const deleteJobById = async (jobId) => {
     return err;
   }
 };
-
-export const jobCreate = async (values, email) => {
-  try {
-    const data = await axios.post(
-      'http://localhost:3001/task',
-      {
-        title: values.title,
-        description: values.description,
-        minCompensation: values.minCompensation,
-        maxCompensation: values.maxCompensation,
-        minQuota: values.minQuota,
-        maxQuota: values.maxQuota,
-        paymentMethod: values.paymentMethod,
-        employerEmail: email,
-        fieldsOfWork: [values.fieldsOfWork],
-      }
-    )
-    console.log("success")
-    console.log(data)
-    return data
-  } catch (error) {
-    console.log(error)
-    return { error }
-  }
-}

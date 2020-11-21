@@ -4,6 +4,15 @@ axios.defaults.baseURL = 'http://localhost:3001';
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
+export const getStudentJobList = async () => {
+  try {
+    const response = await axios.get(`/task-student`);
+    return response.data;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const getAppList = async () => {
   try {
     const response = await axios.get(`/application`, {
@@ -31,6 +40,15 @@ export const getAppById = async (appId) => {
     const response = await axios.get(`/application`, {
       params: { applicationId: appId },
     });
+    return response.data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const updateApp = async (appData) => {
+  try {
+    const response = await axios.patch(`/application`, appData);
     return response.data;
   } catch (err) {
     return err;
