@@ -38,6 +38,7 @@ const jobMapper = (job) => {
     minCompensation: job.minCompensation,
     minQuota: job.minQuota,
     maxQuota: job.maxQuota,
+    currentAccepted: job.currentAccepted,
     title: job.title,
   };
 };
