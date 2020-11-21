@@ -46,6 +46,15 @@ export const getAppById = async (appId) => {
   }
 };
 
+export const updateApp = async (appData) => {
+  try {
+    const response = await axios.patch(`/application`, appData);
+    return response.data;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const deleteAppById = async (appId) => {
   try {
     const response = await axios.delete(`/application`, {
