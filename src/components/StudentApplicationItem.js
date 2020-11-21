@@ -1,71 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { List, Space, Typography, Button, Spin, Row } from 'antd';
+import React from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { List, Typography, Space } from 'antd';
 import {
   CheckOutlined,
   CloseOutlined,
   ClockCircleOutlined,
   TrophyOutlined,
 } from '@ant-design/icons';
-import { Link, useParams } from 'react-router-dom';
-import { getJobById } from '../api/employer';
 
-const IconIcon = ({ status }) => {
+const StatusIcon = ({ status }) => {
   switch (status) {
     case 'Accepted':
       return <CheckOutlined />;
-
     case 'Rejected':
       return <CloseOutlined />;
-
     case 'Pending':
       return <ClockCircleOutlined />;
-
     case 'Finished':
       return <TrophyOutlined />;
-
     default:
       return <CheckOutlined />;
   }
 };
 
-const loadJobById = async (setJobById, setLoading, id) => {
-  const job = await getJobById(id);
-  setJobById(job);
-  setLoading(false);
-};
-
-const StudentApplicationItem = ({
-  app: { id, email, taskId, status, information },
-}) => {
-  const [loading, setLoading] = useState(true);
-  const [jobById, setJobById] = useState({});
-  const user = useParams().email;
-  useEffect(() => {
-    loadJobById(setJobById, setLoading, id);
-  }, [jobById]);
-
-  if (jobById.length === 1) var title = jobById[0].title;
-
-  return loading ? (
-    <Row justify="center">
-      <Spin />
-    </Row>
-  ) : (
+const StudentApplicationItem = ({ application: { id, title, status } }) => {
+  const { email } = useParams();
+  return (
     <List.Item key={id}>
       <List.Item.Meta
         title={
-          <Link to={`/student/${user}/application/${id}`}>
+          <Link to={`/student/${email}/application/${id}`}>
             <Typography.Link type="link">{title}</Typography.Link>
           </Link>
         }
+        description={
+          <Space size={8}>
+            <StatusIcon status={status} />
+            <Typography>{status}</Typography>
+          </Space>
+        }
       />
-      <Space direction="vertical">
-        <div>
-          {status + '\t\t'}
-          <IconIcon status={status} />
-        </div>
-      </Space>
-      )
     </List.Item>
   );
 };
