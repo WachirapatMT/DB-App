@@ -33,6 +33,15 @@ export const getJobById = async (jobId) => {
   }
 };
 
+export const createJob = async (job) => {
+  try {
+    const response = await axios.post(`/task`, job);
+    return response.data;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const updateJobById = async (jobData) => {
   try {
     const response = await axios.patch(`/task`, jobData);

@@ -12,35 +12,42 @@ const EmployerJob = () => {
   const history = useHistory();
   const { email, jobId } = useParams();
 
-  useEffect(async () => {
-    const job = await getJobById(jobId);
+  const fetchJob = async () => {
+    const [job] = await getJobById(jobId);
+    const details = {
+      title: job.title,
+      description: job.description,
+      fieldsOfWork: `${job.fieldsOfWork}`,
+      minCompensation: job.minCompensation,
+      maxCompensation: job.maxCompensation,
+      minQuota: job.minQuota,
+      maxQuota: job.maxQuota,
+      currentAccepted: job.currentAccepted,
+      paymentMethod: job.paymentMethod,
+    };
 
-    setTimeout(() => {
-      setJobDetails({
-        title: job[0].title,
-        description: job[0].description,
-        fieldsOfWork: `${job[0].fieldsOfWork}`,
-        minCompensation: job[0].minCompensation,
-        maxCompensation: job[0].maxCompensation,
-        minQuota: job[0].minQuota,
-        maxQuota: job[0].maxQuota,
-        currentAccepted: job[0].currentAccepted,
-        paymentMethod: job[0].paymentMethod,
-      });
-      setPageLoading(false);
-    }, 1000);
+    setJobDetails(details);
+    setPageLoading(false);
+  };
+
+  useEffect(() => {
+    fetchJob();
   }, []);
 
   const onEdit = async (values) => {
     setLoading(true);
-    values.fieldsOfWork = values.fieldsOfWork.split(',')
-    await updateJobById({ taskId: jobId, ...values });
 
-    setTimeout(() => {
-      history.go(0);
-      setLoading(false);
-      setIsEdit(false);
-    }, 2000);
+    const jobData = {
+      ...values,
+      taskId: jobId,
+      fieldsOfWork: values.fieldsOfWork.split(','),
+    };
+
+    await updateJobById(jobData);
+
+    fetchJob();
+    setLoading(false);
+    setIsEdit(false);
   };
 
   const onDelete = async () => {
@@ -51,7 +58,7 @@ const EmployerJob = () => {
   const JobDetails = () => (
     <Card>
       {Object.keys(jobDetails).map((key) => (
-        <Row>
+        <Row key={key}>
           <Col span={6}>
             <Typography.Title level={5}>{key}</Typography.Title>
           </Col>
@@ -62,9 +69,9 @@ const EmployerJob = () => {
   );
 
   return pageLoading ? (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <Row justify="center">
       <Spin />
-    </div>
+    </Row>
   ) : (
     <>
       <PageHeader
@@ -76,10 +83,14 @@ const EmployerJob = () => {
           isEdit
             ? []
             : [
-                <Button type="primary" onClick={() => setIsEdit(true)}>
+                <Button
+                  key="edit_btn"
+                  type="primary"
+                  onClick={() => setIsEdit(true)}
+                >
                   Edit
                 </Button>,
-                <Button type="danger" onClick={onDelete}>
+                <Button key="delete_btn" type="danger" onClick={onDelete}>
                   Delete
                 </Button>,
               ]
