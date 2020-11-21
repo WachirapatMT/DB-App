@@ -21,7 +21,7 @@ const EmployerJobCreate = () => {
           maxQuota: values.maxQuota,
           paymentMethod: values.paymentMethod,
           employerEmail: email,
-          fieldsOfWork: [values.fieldsOfWork],
+          fieldsOfWork: values.fieldsOfWork.split(','),
         }
       )
       console.log("success")
