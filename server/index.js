@@ -34,6 +34,14 @@ Application.post('/application', Controllers.Application.Create);
 Application.patch('/application', Controllers.Application.Update);
 Application.delete('/application', Controllers.Application.Delete);
 
+// Endpoint Handler for assessment
+Application.get('/assessment', async (req, res) => res.json(await Controllers.Assessment.getAssessments()));
+Application.get('/assessment/job/:id', async (req, res) => res.json(await Controllers.Assessment.getAssessmentsByJobId(req.params.id)));
+Application.get('/assessment/:id', async (req, res) => res.json(await Controllers.Assessment.getAssessment(req.params.id)));
+Application.post('/assessment', async (req, res) => res.json(await Controllers.Assessment.postAssessment(req.body)));
+Application.patch('/assessment/:id', async (req, res) => res.json(await Controllers.Assessment.patchAssessment(req.params.id, req.body)));
+Application.delete('/assessment/:id', async (req, res) => res.json(await Controllers.Assessment.deleteAssessment(req.params.id)));
+
 // Start Listening
 Application.listen(Config.PORT, () => {
   console.log(`Application listening on port ${Config.PORT}`)
