@@ -71,11 +71,11 @@ export const getApplications = async (jobId) => {
 
 export const rejectApplication = async (applicationId, information) => {
   try {
-    await axios.patch(`/application`, {data: {
+    await axios.patch(`/application`, {
         information,
         status: "Rejected",
         applicationId,
-    }});
+    });
   } catch (err) {
     return err;
   }
@@ -83,11 +83,11 @@ export const rejectApplication = async (applicationId, information) => {
 
 export const acceptApplication = async (applicationId, information) => {
   try {
-    await axios.patch(`/application`, {data: {
+    await axios.patch(`/application`, {
         information,
         status: "Accepted",
         applicationId,
-    }});
+    });
   } catch (err) {
     return err;
   }
