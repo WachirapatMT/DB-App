@@ -36,9 +36,13 @@ const EmployerJob = () => {
     setApplications(applications);
   }
 
-  useEffect(() => {
+  const fetchAll = () => {
     fetchJob();
     fetchApplication();
+  }
+
+  useEffect(() => {
+    fetchAll()
   }, []);
 
   const onEdit = async (values) => {
@@ -64,12 +68,12 @@ const EmployerJob = () => {
 
   const onAcceptApplication = async (applicationId, information) => {
     await acceptApplication(applicationId, information);
-    fetchApplication();
+    fetchAll();
   }
 
   const onRejectApplication = async (applicationId, information) => {
     await rejectApplication(applicationId, information);
-    fetchApplication()
+    fetchAll();
   }
 
   const JobDetails = () => (
