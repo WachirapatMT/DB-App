@@ -59,3 +59,12 @@ export const deleteJobById = async (jobId) => {
     return err;
   }
 };
+
+export const getApplications = async (jobId) => {
+  try {
+    const response = await axios.get(`/application`, { params: {taskId: jobId} });
+    return response.data;
+  } catch (err) {
+    return err;
+  }
+}
