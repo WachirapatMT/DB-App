@@ -5,9 +5,10 @@ const getApplication = async (filter) => {
     let where = '';
     if(filter['studentEmail'] !== undefined){
         where += ` student_email = '${filter['studentEmail']}'`
-    }
-    else if (filter['applicationId'] !== undefined) {
+    } else if (filter['applicationId'] !== undefined) {
         where += ` application_id = '${filter['applicationId']}'`
+    } else if (filter['taskId'] !== undefined) {
+        where += ` task_id = '${filter['taskId']}'`
     }
 
     let rows;
