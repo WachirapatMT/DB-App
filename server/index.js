@@ -34,7 +34,7 @@ Application.delete('/application', Controllers.Application.Delete);
 
 // Endpoint Handler for assessment
 Application.get('/assessment', async (req, res) => res.json(await Controllers.Assessment.getAssessments()));
-Application.get('/assessment/job/:id', async (req, res) => res.json(await Controllers.Assessment.getAssessmentsByJobId(req.params.id)));
+Application.get('/assessment/job/:id', async (req, res) => res.json(await Controllers.Assessment.getAssessmentsByJobId(parseInt(req.params.id))));
 Application.get('/assessment/:id', async (req, res) => res.json(await Controllers.Assessment.getAssessment(req.params.id)));
 Application.post('/assessment', async (req, res) => res.json(await Controllers.Assessment.postAssessment(req.body)));
 Application.patch('/assessment/:id', async (req, res) => res.json(await Controllers.Assessment.patchAssessment(req.params.id, req.body)));
