@@ -48,7 +48,7 @@ function getAssessment(id) {
   return new Promise((resolve, reject) => {
     const collection = db.collection('assessments');
 
-    collection.findOne({_id: new ObjectID(id)}).toArray(function(err, docs) {
+    collection.findOne({_id: new ObjectID(id)}, function(err, docs) {
       if (err !== null) {
         console.error(err)
         reject(err);
@@ -108,7 +108,7 @@ function deleteAssessment(id) {
   return new Promise((resolve, reject) => {
     const collection = db.collection('assessments');
 
-    collection.deleteOne({_id: new ObjectID(id)}, { $set: data }, function(err, result) {
+    collection.deleteOne({_id: new ObjectID(id)}, function(err, result) {
       if (err !== null) {
         console.error(err)
         reject(err);
