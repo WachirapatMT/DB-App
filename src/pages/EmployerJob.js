@@ -62,6 +62,16 @@ const EmployerJob = () => {
     history.push(`/employer/${email}`);
   };
 
+  const onAcceptApplication = async (applicationId, information) => {
+    await acceptApplication(applicationId, information);
+    fetchApplication();
+  }
+
+  const onRejectApplication = async (applicationId, information) => {
+    await rejectApplication(applicationId, information);
+    fetchApplication()
+  }
+
   const JobDetails = () => (
     <Card>
       {Object.keys(jobDetails).map((key) => (
