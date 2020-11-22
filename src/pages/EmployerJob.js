@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { PageHeader, Card, Button, Row, Col, Typography, Spin } from 'antd';
+import { PageHeader, Card, Button, Row, Col, Typography, Spin, List, Tag } from 'antd';
 import { JobAdsForm } from '../components';
-import { getJobById, updateJobById, deleteJobById } from '../api/employer';
+import { getJobById, updateJobById, deleteJobById, getApplications, acceptApplication, rejectApplication } from '../api/employer';
 
 const EmployerJob = () => {
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const [jobDetails, setJobDetails] = useState();
+  const [applications, setApplications] = useState();
   const history = useHistory();
   const { email, jobId } = useParams();
 
@@ -30,8 +31,14 @@ const EmployerJob = () => {
     setPageLoading(false);
   };
 
+  const fetchApplication = async () => {
+    const applications = await getApplications(jobId);
+    setApplications(applications);
+  }
+
   useEffect(() => {
     fetchJob();
+    fetchApplication();
   }, []);
 
   const onEdit = async (values) => {
