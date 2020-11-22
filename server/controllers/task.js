@@ -44,7 +44,7 @@ const getTask = async (filter) => {
 }
 
 const getTaskStudent = async () => {
-    const rows = await MySQL.Query('CALL get_student_task();')
+    const rows = await MySQL.Query('CALL getStudentTasks();')
     let fieldsOfWork = {}
     let task = {}
     rows[0].forEach(r => {
