@@ -85,6 +85,42 @@ const EmployerJob = () => {
     </Card>
   );
 
+  const tagColor = {
+    Accepted: "green",
+    Rejected: "orange",
+  }
+
+  const ApplicationList = () => {
+    return <List
+        header={<Typography.Title level={5}>Application(s)</Typography.Title>}
+        dataSource={applications}
+        renderItem={item => <List.Item key={item.applicationId}>
+          <List.Item.Meta
+            title={item.studentEmail}
+            description={item.information}
+          />
+          {item.status === "Pending" ? (
+              <>
+              <Button
+                  size="small"
+                  onClick={() => onAcceptApplication(item.applicationId, item.information)}
+              >Accept</Button>
+              <Button
+                  danger type="text"
+                  size="small"
+                  style={{marginLeft: 15}}
+                  onClick={() => onRejectApplication(item.applicationId, item.information)}
+              >Reject</Button>
+              </>
+          ) : (
+              <Tag type="success" color={tagColor[item.status]}>{item.status}</Tag>
+          )
+          }
+        </List.Item>}
+        locale={{emptyText: "No Application Data"}}
+    />
+  }
+
   return pageLoading ? (
     <Row justify="center">
       <Spin />
@@ -126,8 +162,12 @@ const EmployerJob = () => {
           />
         </Card>
       ) : (
-        <JobDetails />
-      )}
+        <>
+          <JobDetails/>
+          <br/>
+          <ApplicationList/>
+        </>
+        )}
     </>
   );
 };
