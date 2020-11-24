@@ -27,3 +27,6 @@ docker-volume
 
 # for intellij
 .idea/
+
+#.env
+.env
