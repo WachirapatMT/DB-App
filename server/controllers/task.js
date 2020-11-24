@@ -89,6 +89,7 @@ exports.Create = async (req, res) => {
 
     try {
         await MySQL.Query('SET autocommit = 0;')
+        await MySQL.Query('START TRANSACTION;')
 
         const rows = await MySQL.Query(`insert into Task value (
             ${null},
@@ -157,6 +158,7 @@ exports.Update = async (req, res) => {
 
     try {
         await MySQL.Query('SET autocommit = 0;')
+        await MySQL.Query('START TRANSACTION;')
 
         const rows = await MySQL.Query(`update Task set 
             title='${title}', 
